@@ -16,6 +16,7 @@ namespace MissingPets.MongoDB
         {
             dbCollection = database.GetCollection<T>(collectionName);
         }
+        
 
         public async Task<IReadOnlyCollection<T>> GetAllAsync()
         {

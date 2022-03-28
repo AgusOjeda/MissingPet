@@ -1,10 +1,10 @@
-﻿using MissingPets.Models.Request;
+﻿using MissingPets.Models.Dtos;
 using MissingPets.Models.Response;
 
 namespace MissingPets.Services
 {
     public interface IUserService
     {
-        Response Auth(AuthRequest model);
+        UserResponse Auth(AuthUser model);
     }
 }

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MissingPets.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
 using MissingPets.Interfaces;
 using MissingPets.Models;
-using MissingPets.Models.Request;
+using MissingPets.Models.Dtos;
+using MissingPets.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
