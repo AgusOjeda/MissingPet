@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MissingPets.Dtos;
 using MissingPets.Interfaces;
 using MissingPets.Models;
+using MissingPets.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace MissingPets.Controllers
         public UserController(IRepository<User> usersRepository)
         {
             this._userRepository = usersRepository;
+        }
+
+        
+        [HttpPost("login")]
+        public IActionResult Autentificar([FromBody] AuthRequest user)
+        {
+            return Ok(user);
         }
 
         [HttpGet]
@@ -47,7 +55,8 @@ namespace MissingPets.Controllers
             var user = new User
             {
                 Name = createUserDto.Name,
-                Email = createUserDto.Email
+                Email = createUserDto.Email,
+                Password = createUserDto.Password
             };
 
             await _userRepository.CreateAsync(user);
@@ -88,5 +97,6 @@ namespace MissingPets.Controllers
 
             return NoContent();
         }
+
     }
 }

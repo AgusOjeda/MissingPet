@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MissingPets.Dtos;
+using MissingPets.Models.Dtos;
 using MissingPets.Interfaces;
 using MissingPets.Models;
 using System;

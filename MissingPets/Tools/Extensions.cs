@@ -1,7 +1,7 @@
-﻿using MissingPets.Dtos;
+﻿using MissingPets.Models.Dtos;
 using MissingPets.Models;
 
-namespace MissingPets
+namespace MissingPets.Tools
 {
     public static class Extensions
     {
@@ -12,7 +12,7 @@ namespace MissingPets
 
         public static UserDto AsUserDto(this User user)
         {
-            return new UserDto(user.Id, user.Name, user.Email);
+            return new UserDto(user.Id, user.Name, user.Email, user.Password);
         }
     }
 }

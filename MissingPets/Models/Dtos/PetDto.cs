@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MissingPets.Dtos
+namespace MissingPets.Models.Dtos
 {
     public record PetDto(
          Guid Id,
@@ -28,7 +28,8 @@ namespace MissingPets.Dtos
         string Plate,
         string Observations,
         [Required] string Location,
-        string[] Pictures);
+        string[] Pictures
+        );
 
     public record UpdatePetDto(
         [Required] string Species,
@@ -40,10 +41,6 @@ namespace MissingPets.Dtos
         string Plate,
         string Observations,
         [Required] string Location,
-        string[] Pictures);
-
-    public record UserDto(Guid Id,string Name, string Email);
-    public record CreateUserDto(string Name, string Email);
-
-    public record UpdateUserDto(string Name, string Email);
+        string[] Pictures
+        );
 }
