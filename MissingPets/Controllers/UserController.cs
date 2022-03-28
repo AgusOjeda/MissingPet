@@ -2,6 +2,8 @@
 using MissingPets.Interfaces;
 using MissingPets.Models;
 using MissingPets.Models.Dtos;
+using MissingPets.Models.Response;
+using MissingPets.Services;
 using MissingPets.Tools;
 using System;
 using System.Collections.Generic;
@@ -15,87 +17,30 @@ namespace MissingPets.Controllers
     public class UserController : ControllerBase
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IUserService _userService;
 
-        public UserController(IRepository<User> usersRepository)
+        public UserController(IRepository<User> usersRepository, IUserService userService)
         {
-            this._userRepository = usersRepository;
+            _userRepository = usersRepository;
+            _userService = userService;
         }
 
         
         [HttpPost("login")]
-        public IActionResult Autentificar([FromBody] AuthRequest user)
+        public IActionResult Autentificar([FromBody] AuthUser model)
         {
-            return Ok(user);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAsync()
-        {
-            var items = (await _userRepository.GetAllAsync()).Select(item => item.AsUserDto());
-            return Ok(items);
-        }
-
-        // GET /api/user/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
-        {
-            var item = await _userRepository.GetAsync(id);
-
-            if (item == null)
-                return NotFound();
-
-            return item.AsUserDto();
-        }
-
-        // POST /api/user
-        [HttpPost]
-        public async Task<IActionResult> PostAsync(CreateUserDto createUserDto)
-        {
-            var user = new User
+            Response response = new Response();
+            var userResponse = _userService.Auth(model);
+            if (userResponse == null)
             {
-                Name = createUserDto.Name,
-                Email = createUserDto.Email,
-                Password = createUserDto.Password
-            };
-
-            await _userRepository.CreateAsync(user);
-
-            return Ok(user);
-        }
-        // PUT /api/user/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, UpdateUserDto updateUserDto)
-        {
-            var existingUser = await _userRepository.GetAsync(id);
-
-            if (existingUser == null)
-            {
-                return NotFound();
+                response.Exito = 0;
+                response.Mensaje = "Usuario o contraseña incorrectos";
+                return BadRequest(response);
             }
-            existingUser.Name = updateUserDto.Name;
-            existingUser.Email = updateUserDto.Email;
-            
-
-            await _userRepository.UpdateAsync(existingUser);
-
-            return NoContent();
+            response.Exito = 1;
+            response.Mensaje = "Usuario autentificado";
+            response.Data = userResponse;
+            return Ok(response);
         }
-
-        // DELETE /api/user/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var user = await _userRepository.GetAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            await _userRepository.RemoveAsync(user.Id);
-
-            return NoContent();
-        }
-
     }
 }
